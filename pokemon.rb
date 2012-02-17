@@ -70,6 +70,7 @@ while( true ) do #begin
     facebook_login.scrape( html_body ).each_pair {|k,v| formdata[k] = v} #scrape the login info from the page
 #formdata[:charset_test] = HTMLEntities.new.decode formdata[:charset_test]
 
+    bad = false
     login_resp = RestClient.post(
       "#{fb}login.php?login_attempt=1",
       formdata,
@@ -78,17 +79,22 @@ while( true ) do #begin
         if [301, 302, 307].include? response.code
             headers[:cookies] = response.cookies
             RestClient.get response.headers[:location], headers
-        else
+        else 
+            puts "#{Time.now.strftime("[%m/%d/%Y %I:%M:%S%p]")} Cannot Login, bad password?"
+            bad = true
+            sleep max_wait
             response.return!(request, result, &block)
         end }
-    login_result = facebook_pokes.scrape( login_resp.body )
+    if( not bad ) then
+      login_result = facebook_pokes.scrape( login_resp.body )
 
-    if( !login_result.login_check.nil? and login_result.login_check == "Please try again later" ) then
-      puts "#{Time.now.strftime("[%m/%d/%Y %I:%M:%S%p]")} Logging in too often..."
-      sleep max_wait
+      if( !login_result.login_check.nil? and login_result.login_check == "Please try again later" ) then
+        puts "#{Time.now.strftime("[%m/%d/%Y %I:%M:%S%p]")} Logging in too often..."
+        sleep max_wait
+      end
+
+      sleep min_wait #be nice to facebook and wait the min time after logging in
     end
-
-    sleep min_wait #be nice to facebook and wait the min time after logging in
   else
 
 #grab our id if we don't already have it
