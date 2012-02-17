@@ -11,17 +11,17 @@ Running
 
 Before you run, you need to create a config file. The contents of which will look like this:
 
-  module PokemonConfig
+    module PokemonConfig
 
-    USERNAME = "myemail@address.com"
-    PASSWORD = "mypassword"
+      USERNAME = "myemail@address.com"
+      PASSWORD = "mypassword"
 
-  #min and max wait time in seconds
-    MAX_WAIT = 30*60
-    MIN_WAIT = 1
+    #min and max wait time in seconds
+      MAX_WAIT = 30*60
+      MIN_WAIT = 1
 
-  end
+    end
 
 Then running is as simple as:
 
-  ruby pokemon.rb
+    ruby pokemon.rb
