@@ -1,6 +1,3 @@
-POKEMON
-=======
-
 Description
 -----------
 
@@ -9,7 +6,7 @@ A tool that will check facebook at dynamic intervals for pokes and respond with 
 Running
 -------
 
-Before you run, you need to create a config file. The contents of which will look like this:
+Before you run, you need to create a config.rb file. The contents of which will look like this:
 
     module PokemonConfig
 
